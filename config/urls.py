@@ -19,6 +19,7 @@ import debug_toolbar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #path('medina_station/', include('medina_station.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
     path('api-auth/', include('rest_framework.urls')),
 ]
