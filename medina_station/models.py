@@ -51,18 +51,71 @@ class Crew(models.Model):
 
 
 class Commander(models.Model):
+    """
+    Based off the User Model in the Commanders app
+    Choose your sides wisely and command your crew boldly!
+    """
 
     class Alliance(models.TextChoices):
         UNAFFILIATED = 'Unaffiliated', 'UNAFFILIATED'
-        UNITED_NATIONS = 'United Nations', 'UNITED NATIONS'
-        MARS_CONGRESSIONAL_REPUBLIC = 'MCR', 'MCR'
         OUTER_PLANETS_ALLIANCE = 'OPA', 'OPA'
+        MARS_CONGRESSIONAL_REPUBLIC = 'MCR', 'MCR'
+        UNITED_NATIONS = 'United Nations', 'UNITED NATIONS'
 
 
-    #user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    #name = models.CharField(max_length=60)
+    # user = models.OneToOneField(
+    #     settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     alliance = models.CharField(
         max_length=25,
         choices=Alliance.choices,
         default=Alliance.UNAFFILIATED
     )
+
+
+class MyDock(models.Model):
+    """
+    This is where you bring together your ship and crew!
+    Much like a Cart model.
+    """
+    id = models.UUIDField(primary_key=True, default=uuid4)
+    created_at = models.DateTimeField(auto_now_add=True)
+    commander = models.ForeignKey(Commander, on_delete=models.CASCADE)
+
+
+class MyDockSpaceShip(models.Model):
+    my_dock = models.ForeignKey(
+        MyDock, on_delete=models.PROTECT, 
+        related_name='myship')
+    spaceship = models.ForeignKey(
+        SpaceShip, on_delete=models.CASCADE,
+        related_name='dockedship')
+
+    def __str__(self):
+        return self.spaceship
+
+    # class Meta:
+    #     unique_together = [['my_dock', 'spaceship']]
+
+
+class MyDockCaptain(models.Model):
+    my_dock = models.ForeignKey(
+        MyDock, on_delete=models.PROTECT, 
+        related_name='mycaptain')
+    captain = models.ForeignKey(
+        Crew, on_delete=models.CASCADE,
+        related_name='dockedcaptain')
+
+    def __str__(self):
+        return self.captain
+
+
+class MyDockXO(models.Model):
+    my_dock = models.ForeignKey(
+        MyDock, on_delete=models.PROTECT, 
+        related_name='myxo')
+    xo = models.ForeignKey(
+        Crew, on_delete=models.CASCADE,
+        related_name='dockedxo')
+
+    def __str__(self):
+        return self.xo

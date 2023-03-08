@@ -1,15 +1,15 @@
 from django.contrib import admin
-from . import models
+from .models import *
 
 
-@admin.register(models.SpaceShip)
+@admin.register(SpaceShip)
 class SpaceShipAdmin(admin.ModelAdmin):
     list_display = ['name', 'nickname', 'classification', 'engine_type']
     list_per_page = 10
     search_fields = ['first_name__istartswith', 'classification__istartswith']
 
 
-@admin.register(models.Crew)
+@admin.register(Crew)
 class CrewAdmin(admin.ModelAdmin):
     list_display = ['first_name', 'last_name', 'nickname', 'origin', 'staff_level']
     list_editable = ['staff_level']
