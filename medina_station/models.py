@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.db import models
 from uuid import uuid4
+from commanders.models import User
 
 
 class SpaceShip(models.Model):
@@ -39,10 +41,27 @@ class Crew(models.Model):
     origin = models.CharField(max_length=50, default='unknown origin')
     description = models.TextField(max_length=400)
     staff_level = models.CharField(
-                    max_length=20, 
-                    choices=StaffLevel.choices, 
-                    default=StaffLevel.UNASSIGNED)
+        max_length=20, 
+        choices=StaffLevel.choices, 
+        default=StaffLevel.UNASSIGNED
+    )
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
+
+class Commander(models.Model):
+
+    class Alliance(models.TextChoices):
+        UNAFFILIATED = 'Unaffiliated', 'UNAFFILIATED'
+        UNITED_NATIONS = 'United Nations', 'UNITED NATIONS'
+        MARS_CONGRESSIONAL_REPUBLIC = 'MCR', 'MCR'
+        OUTER_PLANETS_ALLIANCE = 'OPA', 'OPA'
+
+
+    #user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    #name = models.CharField(max_length=60)
+    alliance = models.CharField(
+        choices=Alliance.choices,
+        default=Alliance.UNAFFILIATED
+    )

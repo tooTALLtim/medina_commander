@@ -14,3 +14,6 @@ class CrewSerializer(serializers.ModelSerializer):
         model = Crew
         fields = ['first_name', 'last_name', 'nickname', 'origin', 'description', 'staff_level']
 
+
+# class CommanderSerializer(serializers.ModelSerializer):
+#     user = 
