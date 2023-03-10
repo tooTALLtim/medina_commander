@@ -50,72 +50,102 @@ class Crew(models.Model):
         return f'{self.first_name} {self.last_name}'
 
 
-class Commander(models.Model):
-    """
-    Based off the User Model in the Commanders app
-    Choose your sides wisely and command your crew boldly!
-    """
 
-    class Alliance(models.TextChoices):
-        UNAFFILIATED = 'Unaffiliated', 'UNAFFILIATED'
-        OUTER_PLANETS_ALLIANCE = 'OPA', 'OPA'
-        MARS_CONGRESSIONAL_REPUBLIC = 'MCR', 'MCR'
-        UNITED_NATIONS = 'United Nations', 'UNITED NATIONS'
+# Going to hold off on this, want to get the SpaceShip and 
+# Crew models working with some Templates first
 
+# class Commander(models.Model):
+#     """
+#     Based off the User Model in the Commanders app
+#     Choose your sides wisely and command your crew boldly!
+#     """
 
-    # user = models.OneToOneField(
-    #     settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    alliance = models.CharField(
-        max_length=25,
-        choices=Alliance.choices,
-        default=Alliance.UNAFFILIATED
-    )
+#     class Alliance(models.TextChoices):
+#         UNAFFILIATED = 'Unaffiliated', 'UNAFFILIATED'
+#         OUTER_PLANETS_ALLIANCE = 'OPA', 'OPA'
+#         MARS_CONGRESSIONAL_REPUBLIC = 'MCR', 'MCR'
+#         UNITED_NATIONS = 'United Nations', 'UNITED NATIONS'
 
 
-class MyDock(models.Model):
-    """
-    This is where you bring together your ship and crew!
-    Much like a Cart model.
-    """
-    id = models.UUIDField(primary_key=True, default=uuid4)
-    created_at = models.DateTimeField(auto_now_add=True)
-    commander = models.ForeignKey(Commander, on_delete=models.CASCADE)
+#     # user = models.OneToOneField(
+#     #     settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+#     alliance = models.CharField(
+#         max_length=25,
+#         choices=Alliance.choices,
+#         default=Alliance.UNAFFILIATED
+#     )
 
 
-class MyDockSpaceShip(models.Model):
-    my_dock = models.ForeignKey(
-        MyDock, on_delete=models.PROTECT, 
-        related_name='myship')
-    spaceship = models.ForeignKey(
-        SpaceShip, on_delete=models.CASCADE,
-        related_name='dockedship')
 
-    def __str__(self):
-        return self.spaceship
-
-    # class Meta:
-    #     unique_together = [['my_dock', 'spaceship']]
+# undecided how to make the docked ship:
+# contained in one model that has all attributes 
+# of the ship, or break it out as Mosh did
+# with his Cart and CartItems
 
 
-class MyDockCaptain(models.Model):
-    my_dock = models.ForeignKey(
-        MyDock, on_delete=models.PROTECT, 
-        related_name='mycaptain')
-    captain = models.ForeignKey(
-        Crew, on_delete=models.CASCADE,
-        related_name='dockedcaptain')
+# class MyDock(models.Model):
+#     id = models.UUIDField(primary_key=True, default=uuid4)
+#     commander = models.ForeignKey(
+#         Commander, on_delete=models.PROTECT) # I think PROTECT is what I want, research further
+#     spaceship = models.ForeignKey(
+#         SpaceShip, on_delete=models.PROTECT,
+#         related_name='dockedship')
+#     captain = models.ForeignKey(
+#         Crew, on_delete=models.PROTECT,
+#         related_name='dockedcaptain')
+#     xo = models.ForeignKey(
+#         Crew, on_delete=models.PROTECT,
+#         related_name='dockedxo')
 
-    def __str__(self):
-        return self.captain
+    
+#     def __str__(self):
+#         return f'{self.commander} {self.id}'
 
 
-class MyDockXO(models.Model):
-    my_dock = models.ForeignKey(
-        MyDock, on_delete=models.PROTECT, 
-        related_name='myxo')
-    xo = models.ForeignKey(
-        Crew, on_delete=models.CASCADE,
-        related_name='dockedxo')
+# class MyDock(models.Model):
+#     """
+#     This is where you bring together your ship and crew!
+#     Much like a Cart model.
+#     """
+#     id = models.UUIDField(primary_key=True, default=uuid4)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     commander = models.ForeignKey(Commander, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.xo
+
+# class MyDockSpaceShip(models.Model):
+#     my_dock = models.ForeignKey(
+#         MyDock, on_delete=models.PROTECT, 
+#         related_name='myship')
+#     spaceship = models.ForeignKey(
+#         SpaceShip, on_delete=models.CASCADE,
+#         related_name='dockedship')
+
+#     def __str__(self):
+#         return self.spaceship
+
+#     # class Meta:
+#     #     unique_together = [['my_dock', 'spaceship']]
+
+
+# class MyDockCaptain(models.Model):
+#     my_dock = models.ForeignKey(
+#         MyDock, on_delete=models.PROTECT, 
+#         related_name='mycaptain')
+#     captain = models.ForeignKey(
+#         Crew, on_delete=models.CASCADE,
+#         related_name='dockedcaptain')
+
+#     def __str__(self):
+#         return self.captain
+
+
+# class MyDockXO(models.Model):
+#     my_dock = models.ForeignKey(
+#         MyDock, on_delete=models.PROTECT, 
+#         related_name='myxo')
+#     xo = models.ForeignKey(
+#         Crew, on_delete=models.CASCADE,
+#         related_name='dockedxo')
+
+#     def __str__(self):
+#         return self.xo

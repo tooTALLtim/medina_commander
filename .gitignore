@@ -8,7 +8,7 @@ ENV/
 env.bak/ 
 venv.bak/
  
-# Django #
+# Django
 *.log
 *.pot
 *.pyc
@@ -34,4 +34,4 @@ celerybeat-schedule.*
 !.vscode/extensions.json 
 .history
 
-general.log 
+#general.log 
